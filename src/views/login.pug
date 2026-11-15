@@ -1,0 +1,25 @@
+html
+  head
+    title Prijava
+  body
+    h1 Prijava(SQL Injection) - za testiranje koristiti : ' OR 1=1--
+    form(action="/login" method="post")
+      div
+        label Korisničko ime:
+        input(type="text" name="username")
+      div
+        label Lozinka:
+        input(type="text" name="password")
+      div
+        label
+          input(type="checkbox" name="sqli_enabled" checked=sqliEnabled)
+          |  Omogući SQLi ranjivost
+      button(type="submit") Prijavi se
+
+    if sql
+      h3 Izvršeni SQL upit:
+      pre= sql
+    if user
+      p(style="color:green") Prijavljen kao: #{user.username} (uloga: #{user.role})
+    else if sql
+      p(style="color:red") Prijava neuspješna
