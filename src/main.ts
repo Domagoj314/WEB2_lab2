@@ -17,7 +17,7 @@ initDb();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
-  secret: 'tajna-za-demo',
+  secret: process.env.SECRET || 'tajna-za-demo',
   resave: false,
   saveUninitialized: false,
 }));
