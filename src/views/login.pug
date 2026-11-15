@@ -21,5 +21,6 @@ html
       pre= sql
     if user
       p(style="color:green") Prijavljen kao: #{user.username} (uloga: #{user.role})
+      p #[a(href="/profile") Idi na profil →]
     else if sql
       p(style="color:red") Prijava neuspješna

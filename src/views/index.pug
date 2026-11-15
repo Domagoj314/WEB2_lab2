@@ -1,5 +1,16 @@
 html
-    head
-        title Sigurnost - 2. projekt iz kolegija
-    body
-        h1 Radi!
+  head
+    title PROJEKT2 Sigurnost
+    style.
+      body { font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 0 20px; line-height: 1.5; }
+      code { background: #eee; padding: 1px 4px; }
+  body
+    h1 Projekt2 Sigurnost
+
+    h2 1. SQL injection - prijava
+    p Prekidač ranjivosti je na formi. Napad: korisničko ime #[code ' OR 1=1--]
+    p #[a(href="/login") Prijava]
+
+    h2 2. CSRF - promjena emaila logiranog korisnika
+    p Prijavi se, pa na profilu uključi/isključi zaštitu i pokreni napad preko #[code /attacker].
+    p #[a(href="/login") Prijava → Profil]
