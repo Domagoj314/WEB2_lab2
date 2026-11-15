@@ -5,6 +5,16 @@ html
     h1 Profil
     p Korisnik: #{user.username}
     p Trenutni email: #{user.email}
+
     form(action="/profile/email" method="post")
+      input(type="hidden" name="_csrf" value=csrfToken)
       input(type="email" name="email" required)
       button(type="submit") Promijeni email
+
+    hr
+    form(action="/toggle/csrf" method="post")
+      label
+        input(type="checkbox" name="csrf_protected" checked=csrfProtected onchange="this.form.submit()")
+        |  CSRF zaštita uključena
+    p Napadačeva stranica: 
+      a(href="/attacker" target="_blank") /attacker

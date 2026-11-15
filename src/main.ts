@@ -1,6 +1,8 @@
 import express from 'express';
 import path from 'path/win32';
 import session from 'express-session';
+import crypto from 'crypto';
+import { state } from './state.js';
 import { fileURLToPath } from 'url';
 import { testConnection } from './db.js';
 import { initDb } from './db.js';
@@ -56,15 +58,36 @@ app.post('/login', async (req, res) => {
 
 app.get('/profile', (req, res) => {
   if (!req.session.user) return res.redirect('/login');
-  res.render('profile', { user: req.session.user });
+  if (!req.session.csrfToken) {
+    req.session.csrfToken = crypto.randomBytes(16).toString('hex');
+  }
+  res.render('profile', {
+    user: req.session.user,
+    csrfToken: req.session.csrfToken,
+    csrfProtected: state.csrfProtected,
+  });
 });
 
 app.post('/profile/email', async (req, res) => {
   if (!req.session.user) return res.redirect('/login');
+
+  if (state.csrfProtected && req.body._csrf !== req.session.csrfToken) {
+    return res.status(403).send('CSRF token nevažeći -> napad spriječen.');
+  }
+
   const { email } = req.body;
   await pool.query('UPDATE users SET email=$1 WHERE id=$2', [email, req.session.user.id]);
   req.session.user.email = email;
   res.redirect('/profile');
+});
+
+app.post('/toggle/csrf', (req, res) => {
+  state.csrfProtected = req.body.csrf_protected === 'on';
+  res.redirect('/profile');
+});
+
+app.get('/attacker', (req, res) => {
+  res.render('attacker');
 });
 
 
