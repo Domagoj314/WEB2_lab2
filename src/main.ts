@@ -1,5 +1,5 @@
 import express from 'express';
-import path from 'path/win32';
+import path from 'path';
 import session from 'express-session';
 import crypto from 'crypto';
 import { state } from './state.js';
