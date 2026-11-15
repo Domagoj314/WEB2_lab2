@@ -21,3 +21,25 @@ export async function testConnection() {
     console.error('Greška pri spajanju na bazu:', err);
   }
 }
+
+export async function initDb() {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS users (
+      id SERIAL PRIMARY KEY,
+      username TEXT UNIQUE NOT NULL,
+      password TEXT NOT NULL,
+      email TEXT,
+      role TEXT
+    )
+  `);
+
+  const { rows } = await pool.query('SELECT COUNT(*) FROM users');
+  if (Number(rows[0].count) === 0) {
+    await pool.query(`
+      INSERT INTO users (username, password, email, role) VALUES
+        ('admin', 'admin123', 'admin@web2.local', 'admin'),
+        ('pero',  'pero123',  'pero@web2.local',  'user')
+    `);
+    console.log('Seed korisnici ubaceni.');
+  }
+}

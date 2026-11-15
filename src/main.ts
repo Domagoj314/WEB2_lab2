@@ -2,11 +2,13 @@ import express from 'express';
 import path from 'path/win32';
 import { fileURLToPath } from 'url';
 import { testConnection } from './db.js';
+import { initDb } from './db.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 testConnection();
+initDb();
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
