@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'path/win32';
+import session from 'express-session';
 import { fileURLToPath } from 'url';
 import { testConnection } from './db.js';
 import { initDb } from './db.js';
@@ -13,6 +14,11 @@ testConnection();
 initDb();
 
 app.use(express.urlencoded({ extended: true }));
+app.use(session({
+  secret: 'tajna-za-demo',
+  resave: false,
+  saveUninitialized: false,
+}));
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
@@ -41,8 +47,24 @@ app.post('/login', async (req, res) => {
     const result = await pool.query(sql, [username, password]);
     user = result.rows[0];
   }
+  if (user) {
+  req.session.user = { id: user.id, username: user.username, email: user.email, role: user.role };
+}
 
   res.render('login', { user, sql, sqliEnabled });
+});
+
+app.get('/profile', (req, res) => {
+  if (!req.session.user) return res.redirect('/login');
+  res.render('profile', { user: req.session.user });
+});
+
+app.post('/profile/email', async (req, res) => {
+  if (!req.session.user) return res.redirect('/login');
+  const { email } = req.body;
+  await pool.query('UPDATE users SET email=$1 WHERE id=$2', [email, req.session.user.id]);
+  req.session.user.email = email;
+  res.redirect('/profile');
 });
 
 

@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-"scripts": {
-  "clean": "shx rm -rf dist",
-  "copy-views": "shx cp -r src/views dist/views",
-  "build": "npm run clean && tsc && npm run copy-views",
-  "start": "node dist/main.js"
-},
+  "scripts": {
+    "clean": "shx rm -rf dist",
+    "copy-views": "shx cp -r src/views dist/views",
+    "build": "npm run clean && tsc && npm run copy-views",
+    "start": "node dist/main.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -16,11 +16,13 @@
   "dependencies": {
     "dotenv": "^18.0.10",
     "express": "^5.3.0",
+    "express-session": "^1.19.0",
     "pg": "^8.23.1",
     "pug": "^3.0.4"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
+    "@types/express-session": "^1.19.0",
     "@types/node": "^26.6.6",
     "@types/pg": "^8.23.1",
     "shx": "^0.4.0",

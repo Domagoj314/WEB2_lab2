@@ -1,0 +1,10 @@
+html
+  head
+    title Profil
+  body
+    h1 Profil
+    p Korisnik: #{user.username}
+    p Trenutni email: #{user.email}
+    form(action="/profile/email" method="post")
+      input(type="email" name="email" required)
+      button(type="submit") Promijeni email
